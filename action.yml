@@ -1,0 +1,29 @@
+name: "GitHub Stats Cards"
+description: "Generate static GitHub stats and top languages SVG cards, with no hosted service dependency"
+author: "canoo"
+branding:
+  icon: "activity"
+  color: "green"
+inputs:
+  username:
+    description: "GitHub username to generate cards for. Defaults to the repository owner."
+    required: false
+    default: ""
+  output_dir:
+    description: "Directory in the calling repo to write the cards to."
+    required: false
+    default: "stats"
+  github_token:
+    description: "GitHub token for API calls. Pass secrets.GITHUB_TOKEN in the calling workflow."
+    required: false
+    default: ""
+runs:
+  using: "composite"
+  steps:
+    - name: Generate stats cards
+      shell: bash
+      env:
+        GITHUB_USER: ${{ inputs.username }}
+        GITHUB_TOKEN: ${{ inputs.github_token }}
+        STATS_OUT: ${{ inputs.output_dir }}
+      run: python3 "${{ github.action_path }}/generate_stats.py"

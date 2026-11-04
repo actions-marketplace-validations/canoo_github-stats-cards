@@ -1,0 +1,28 @@
+# Copy this file to .github/workflows/stats.yml in your profile repo.
+# It is an example only. It does not run in this repo.
+name: Generate Stats Cards
+
+on:
+  schedule:
+    - cron: "0 1 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: canoo/github-stats-cards@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Commit cards if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add stats
+          git diff --cached --quiet || git commit -m "Update stats cards"
+          git push
