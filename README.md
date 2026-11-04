@@ -1,4 +1,4 @@
-# GitHub Stats Cards
+# Canoo Stats Cards
 
 Static GitHub stats and top languages cards for a profile README, with no hosted service in the middle.
 
