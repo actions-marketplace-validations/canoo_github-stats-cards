@@ -1,5 +1,5 @@
 name: "Canoo Stats Cards"
-description: "Generate static GitHub stats, top languages, Tetris, 3D, snake, streak, and summary SVG cards, with no hosted service dependency"
+description: "Generate static GitHub stats and contribution cards as SVG files, no hosted service"
 author: "canoo"
 branding:
   icon: "activity"
