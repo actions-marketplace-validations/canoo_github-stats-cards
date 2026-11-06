@@ -18,6 +18,7 @@ jobs:
       - uses: ./
         with:
           output_dir: example
+          cards: stats,top-langs,tetris,contrib-3d,snake,streak,summary
           github_token: ${{ secrets.GITHUB_TOKEN }}
       - name: Commit example cards if changed
         run: |

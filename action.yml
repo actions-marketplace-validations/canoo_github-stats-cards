@@ -1,5 +1,5 @@
 name: "Canoo Stats Cards"
-description: "Generate static GitHub stats and top languages SVG cards, with no hosted service dependency"
+description: "Generate static GitHub stats, top languages, Tetris, 3D, snake, streak, and summary SVG cards, with no hosted service dependency"
 author: "canoo"
 branding:
   icon: "activity"
@@ -13,6 +13,10 @@ inputs:
     description: "Directory in the calling repo to write the cards to."
     required: false
     default: "stats"
+  cards:
+    description: "Comma-separated card types to generate: stats,top-langs,tetris,contrib-3d,snake,streak,summary. Defaults to stats,top-langs for backwards compatibility with v1.0.0."
+    required: false
+    default: "stats,top-langs"
   github_token:
     description: "GitHub token for API calls. Pass secrets.GITHUB_TOKEN in the calling workflow."
     required: false
@@ -26,4 +30,13 @@ runs:
         GITHUB_USER: ${{ inputs.username }}
         GITHUB_TOKEN: ${{ inputs.github_token }}
         STATS_OUT: ${{ inputs.output_dir }}
+        CARDS: ${{ inputs.cards }}
       run: python3 "${{ github.action_path }}/generate_stats.py"
+    - name: Generate contribution cards
+      shell: bash
+      env:
+        GITHUB_USER: ${{ inputs.username }}
+        GITHUB_TOKEN: ${{ inputs.github_token }}
+        STATS_OUT: ${{ inputs.output_dir }}
+        CARDS: ${{ inputs.cards }}
+      run: python3 "${{ github.action_path }}/generate_contrib_cards.py"

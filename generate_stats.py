@@ -183,10 +183,19 @@ def main():
         ("Followers", fmt(user_data.get("followers"))),
     ]
     os.makedirs(OUT, exist_ok=True)
-    with open(os.path.join(OUT, "stats.svg"), "w", encoding="utf-8") as f:
-        f.write(stats_svg(USER, rows))
-    with open(os.path.join(OUT, "top-langs.svg"), "w", encoding="utf-8") as f:
-        f.write(langs_svg(USER, langs))
+    # v1.1.0: CARDS selects which card types to write, so a user can
+    # pick only stats, only top-langs, or both. No CARDS set means
+    # both, for backwards compatibility with v1.0.0.
+    cards_env = os.environ.get("CARDS", "")
+    selected = None
+    if cards_env:
+        selected = {c.strip() for c in cards_env.split(",") if c.strip()}
+    if selected is None or "stats" in selected:
+        with open(os.path.join(OUT, "stats.svg"), "w", encoding="utf-8") as f:
+            f.write(stats_svg(USER, rows))
+    if selected is None or "top-langs" in selected:
+        with open(os.path.join(OUT, "top-langs.svg"), "w", encoding="utf-8") as f:
+            f.write(langs_svg(USER, langs))
     print(f"wrote stats for {USER}: stars={stars} prs={prs} issues={issues} "
           f"commits={commits} langs={sorted(langs, key=langs.get, reverse=True)[:5]}")
 

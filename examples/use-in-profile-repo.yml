@@ -16,8 +16,11 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-      - uses: canoo/github-stats-cards@v1
+      - uses: canoo/github-stats-cards@v1.1.0
         with:
+          # Pick only the cards you want. Leave this out for
+          # stats and top-langs only, as in v1.0.0.
+          cards: stats,top-langs,tetris,contrib-3d,snake,streak,summary
           github_token: ${{ secrets.GITHUB_TOKEN }}
       - name: Commit cards if changed
         run: |
